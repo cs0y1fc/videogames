@@ -1,7 +1,7 @@
-# VideoGames Full-Stack web app
+# VideoGames API Rest-full
 
 
-Aquest projecte és una aplicació web full-stack que inclou una API de backend construïda amb Node.js, Express i MySQL. L'API permet gestionar usuaris i videojocs mitjançant una base de dades MySQL. S'inclou la connexió a l'API pública [RAWG.io](https://rawg.io/) per obtenir informació sobre videojocs. També inclou un front-end web que suporta l'autenticació i registre d'usuaris i videojocs a una base de dades MySQL.
+Aquest projecte és una aplicació web full-stack que inclou una API de backend construïda amb Node.js, Express i MySQL. L'API permet gestionar usuaris i videojocs mitjançant una base de dades MySQL. S'inclou la connexió a l'API pública [RAWG.io](https://rawg.io/) per obtenir informació sobre videojocs. També inclou un front-end web que suporta l'autenticació i registre d'usuaris i videojocs a una base de dades MySQL. Este es el proyecto final API REST Express.js ,MYsql del Curso IFCD0112.
 
 ## 1.- Característiques
 
