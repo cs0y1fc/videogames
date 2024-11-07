@@ -1,0 +1,46 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Plantilla API REST con ExpressJS y MySQL"
+    },
+    "paths": {
+      "/api/v1/users": {
+        "get": {
+          "summary": "Get users",
+          "description": "Get users from MySQL database",
+          "responses": {
+            "200": {
+              "description": "List users successfully",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "result": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "The user ID"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The user's name"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "The user's email"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

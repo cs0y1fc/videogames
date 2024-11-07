@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Juegos</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <header>
+        
+        <div>    
+            <form id="searchForm" style="display: inline-flex; gap: 5px; align-items: center;">
+                <input type="text" class="searchbox" id="gameName" placeholder="Busca por nombre" required>
+                <input type="submit" class="menu-btn-signin" value="Buscar" style="padding: 10px 20px; font-size: 14px;">
+            </form>
+            
+        </div>
+
+
+        <!---->
+
+        <!-- <h1 id="top-fix">VideoGames</h1> 
+        <nav id="barra-links">
+            
+            <a id="links" class="button" href="index.html">Inicio</a>
+            <a id="links" class="button" href="login.html">Login</a>
+            <!-- <a id="links" class="button" href="Quienes_somos.html">Quienes_somos</a>
+        
+        </nav> <!--
+        <div class="topnav">
+            <a class="active" href="#home">Home</a>
+            <a href="#search">Search</a>
+            <!--
+            <a href="#news">News</a>
+            <a href="#contact">Contact</a> 
+            
+            <div class="topnav-right">
+                <a href="#search">SignIn</a>
+                <a class="active" href="#about">Login</a>
+            </div>
+          </div>
+          <div class="menu">
+            <button class="menu-btn">Login/Sign In</button>
+            <div class="dropdown-content">
+                <a href="#login">Login</a>
+                <a href="#signin">Sign In</a>
+            </div>
+        </div>-->
+
+
+        <div class="menu-container">
+            <button class="menu-btn-signin" id="Signin" >Login</button>
+            <div class="dropdown-menu1" >
+                <form class="form-container">
+                    <h3>Iniciar Sesión</h3>
+                    <input id="email_login" placeholder="Email" required>
+                    <input id="password_login" placeholder="Contrasenya" required>
+                    <button type="button" id="buttonSignin">Login</button>
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <a href="./SignUp.html">SignUp</a>
+                </form>
+            </div>
+            <button class="menu-btn-signup" id="Signup">Registra't</button>
+            <!-- style="display: none;" --> 
+            <div class="dropdown-menu2">
+                <form class="form-container">
+                    <h3>Registra't</h3>
+                    <input id="username" placeholder="Username" required>
+                    <input id="email" placeholder="Email" required>
+                    <input id="password" placeholder="Contrasenya" required>
+                    <button type="button" id="buttonSignUp">SignUp</button>
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                    <a href="./SignUp.html">SignUp</a>
+                </form>
+            </div>
+            <button class="menu-btn-signup" type="button" id="logout">Logout</button>
+        </div>
+        <script>
+
+
+
+
+function checkToken() {
+    return localStorage.getItem('token') !== null;
+    
+}
+
+function comprobarToken() {
+    if (checkToken()) {
+        document.getElementById('Signin').style.display = 'none';
+        document.getElementById('logout').style.display = 'block';
+        document.getElementById('Signup').style.display = 'none';
+    } else {
+        document.getElementById('Signin').style.display = 'block';
+        document.getElementById('logout').style.display = 'none';
+        document.getElementById('Signup').style.display = 'block';
+    }
+}
+
+const logoutButton = document.getElementById('logout');
+
+// Añade el evento para mostrar u ocultar el menú desplegable
+logoutButton.addEventListener('click', function () {
+    localStorage.clear();
+    document.getElementById('Signin').style.display = 'block';
+    document.getElementById('logout').style.display = 'none';
+    document.getElementById('Signup').style.display = 'block';
+});
+
+
+
+
+// Seleccionar el botón de inicio de sesión
+const signinButton = document.querySelector('#buttonSignin');
+
+// Agregar un event listener al botón para ejecutar la función de inicio de sesión al hacer clic
+signinButton.addEventListener('click', async () => {
+  // Obtener valores de los campos de entrada de usuario y contraseña
+  const email_login = document.querySelector('#email_login').value;
+  console.log(email_login);
+  
+  const password_login = document.querySelector('#password_login').value;
+  console.log(password_login);
+    
+  // Función de inicio de sesión
+  async function signin(email_login, password_login) {
+    try {
+      
+        console.log(email_login);
+        console.log(password_login);
+        const response = await fetch('http://localhost:3000/api/v1/auth/signin', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email_login, 
+                password: password_login
+            })
+        });
+
+      const data = await response.json();
+      console.log(data);
+      
+
+      if (response.ok) {
+        const token = data.token; // Extraer el token de la respuesta
+        console.log('Esta es la data: ' + data);
+        console.log('Esta es el token: ' + data.token);
+
+        if (data.token){
+            localStorage.setItem('token', token); // Guardar el token en localStorage
+            console.log('Token almacenado en localStorage');
+            alert("Inicio de sesion exitoso");
+
+            const dropdownMenu1 = document.querySelector('.dropdown-menu1');
+            dropdownMenu1.style.display = 'none';
+            comprobarToken();
+            //document.addEventListener('DOMContentLoaded', function() {
+            //comprobarToken();
+    
+      } else {
+        console.error('Inicio de sesión fallido:', data.message);
+      }}
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // Llamada a la función de inicio de sesión
+  signin(email_login, password_login);
+  //comprobarToken();
+  comprobarToken();
+});
+
+const signupButton2 = document.querySelector('#buttonSignUp');
+
+// Agregar un event listener al botón para ejecutar la función de inicio de sesión al hacer clic
+signupButton2.addEventListener('click', async () => {
+  // Obtener valores de los campos de entrada de usuario y contraseña
+  const username_signup = document.querySelector('#username').value;
+  console.log(username_signup);
+
+  const email_signup = document.querySelector('#email').value;
+  console.log(email_signup);
+  
+  const password_signup = document.querySelector('#password').value;
+  console.log(password_signup);
+    
+  // Función de inicio de sesión
+  async function signup(username, email, password) {
+    try {
+        console.log(username);        
+        console.log(email);
+        console.log(password);
+        const response = await fetch('http://localhost:3000/api/v1/auth/signup', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username_signup,
+                email: email_signup, 
+                password: password_signup
+            })
+        });
+        console.log('Dades de Registre enviades al Servidor');
+      const data = await response.json();
+      console.log(data);
+
+      
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  // Llamada a la función de inicio de sesión
+  signup(username_signup, email_signup, password_signup);
+  //comprobarToken();
+  comprobarToken();
+});
+
+
+
+comprobarToken();
+
+        </script>  
+
+    </header>
+    <div style="display: block; padding-left: 30px; padding-top: 16px; font-size: 16px;">
+        <span style="padding-left: 50px; font-size: 16px; font-style: oblique;">Order by:</span>
+        <select name="OS" onchange="navigateToLink(this.value)">
+        <!-- <option value="">--Selecciona una opción--</option>-->
+            <option value="https://www.microsoft.com/windows-vista">Rating</option>
+            <option value="https://www.microsoft.com/windows-7">Last Added</option>
+            <option value="https://www.microsoft.com/windows-xp">Windows XP</option>
+            <option value="https://getfedora.org/">Fedora</option>
+            <option value="https://www.debian.org/">Debian</option>
+            <option value="https://www.suse.com/">Suse</option>
+        </select>
+        <span style="padding-left: 50px;">Genero:</span>
+        <select name="OS" onchange="navigateToLink(this.value)">
+        <!-- <option value="">--Selecciona una opción--</option>-->
+            <option value="https://www.microsoft.com/windows-vista">Accion</option>
+            <option value="https://www.microsoft.com/windows-7">Rol</option>
+            <option value="https://www.microsoft.com/windows-xp">Plataformas</option>
+            <option value="https://getfedora.org/">Fedora</option>
+            <option value="https://www.debian.org/">Debian</option>
+            <option value="https://www.suse.com/">Suse</option>
+        </select>
+        <span style="padding-left: 50px;">Plattform:</span>
+        <select name="OS" onchange="navigateToLink(this.value)">
+        <!-- <option value="">--Selecciona una opción--</option>-->
+            <option value="https://www.microsoft.com/windows-vista">PC</option>
+            <option value="https://www.microsoft.com/windows-7">PlayStation</option>
+            <option value="https://www.microsoft.com/windows-xp">X Box</option>
+            <option value="https://getfedora.org/">Nintendo Switch</option>
+            <option value="https://www.debian.org/">Debian</option>
+            <option value="https://www.suse.com/">Suse</option>
+        </select>        
+    </div>
+    
+
+<script>
+    function navigateToLink(value) {
+        if (value) {
+            window.location.href = value;
+        }
+    }
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita el envío del formulario
+
+        const gameName = document.getElementById('gameName').value;
+        const apiKey = '24c111c2b1cb4df780ef88c578af1045'; // Reemplaza con tu clave de API
+        const url = `https://api.rawg.io/api/games?search=${encodeURIComponent(gameName)}&key=${apiKey}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = ''; // Limpiar resultados anteriores
+
+                if (data.results.length > 0) {
+                    data.results.forEach(game => {
+                        const gameElement = document.createElement('div');
+                        gameElement.innerHTML = `<strong>${game.name}</strong> - ${game.released}`;
+                        resultsDiv.appendChild(gameElement);
+                    });
+                } else {
+                    resultsDiv.innerHTML = 'No se encontraron juegos.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = 'Error al buscar los juegos.';
+            });
+    });
+
+</script>
+    <div id="results"></div>
+    <h1>BeARL Games
+    </h1>
+    <div class="game-list" id="gameList">
+        <!-- Aquí se inyectarán los juegos -->
+    </div>
+    <sccript>
+        comprobarToken();
+    </sccript>
+</body>
+</html>
